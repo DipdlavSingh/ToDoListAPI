@@ -1,13 +1,23 @@
-from flask import Flask
+from flask import Flask, request
 import json
 import os
+
+from endpoints.all_lists.get.all_lists import get_all_lists
+
+from endpoints.tasks.get.tasks import get_tasks
 
 app = Flask(__name__)
 
 @app.route('/allLists', methods = ['GET'])
 def get_lists():
-    dummy_lists = [{'title':'list 1', 'completed': True}]
-    return json.dumps(dummy_lists)
+    lists = get_all_lists()
+    return json.dumps(lists)
+
+@app.route('/list', methods = ['GET'])
+def get_list():
+    list_id = request.get_json().get('listId', None)
+    tasks = get_tasks(list_id)
+    return json.dumps(tasks)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
