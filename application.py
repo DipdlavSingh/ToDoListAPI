@@ -1,5 +1,6 @@
 from flask import Flask
 import json
+import os
 
 app = Flask(__name__)
 
@@ -9,4 +10,5 @@ def get_lists():
     return json.dumps(dummy_lists)
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', debug=True, port = port)
