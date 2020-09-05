@@ -1,4 +1,3 @@
-from tkinter.constants import CASCADE
 from database_models.sql_alchemy_setup import session, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
