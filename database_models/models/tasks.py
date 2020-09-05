@@ -10,3 +10,12 @@ class Task(Base):
      datetime = Column(DateTime, nullable = True)
      listId = Column(Integer, ForeignKey('lists.id'))
      completed = Column(Integer, nullable = False)
+
+     def as_dict(self):
+          return {
+               'id': self.id,
+               'title': self.title,
+               'datetime': self.datetime,
+               'listId': self.listId,
+               'completed': self.completed
+          }

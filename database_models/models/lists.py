@@ -12,3 +12,11 @@ class List(Base):
      completed = Column(Integer, nullable = False)
 
      tasks = relationship('Task', cascade = 'all, delete')
+
+     def as_dict(self):
+          return {
+               'id': self.id,
+               'title': self.title,
+               'user': self.user,
+               'completed': self.completed
+          }
