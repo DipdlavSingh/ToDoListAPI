@@ -4,19 +4,26 @@ import os
 
 from endpoints.all_lists.get.all_lists import get_all_lists
 
-from endpoints.tasks.get.tasks import get_tasks
+from endpoints.list.get.list import get_list
+from endpoints.list.post.list import post_list
 
 app = Flask(__name__)
 
 @app.route('/allLists', methods = ['GET'])
-def get_lists():
+def __get_lists():
     lists = get_all_lists()
     return json.dumps(lists)
 
 @app.route('/list', methods = ['GET'])
-def get_list():
+def __get_list():
     list_id = request.get_json().get('listId', None)
-    tasks = get_tasks(list_id)
+    tasks = get_list(list_id)
+    return json.dumps(tasks)
+
+@app.route('/list', methods = ['POST'])
+def __post_list():
+    event = request.get_json()
+    tasks = post_list(event)
     return json.dumps(tasks)
 
 if __name__ == '__main__':
