@@ -7,6 +7,8 @@ from endpoints.all_lists.get.all_lists import get_all_lists
 from endpoints.list.get.list import get_list
 from endpoints.list.post.list import post_list
 
+from endpoints.task.post.task import post_task
+
 app = Flask(__name__)
 
 @app.route('/allLists', methods = ['GET'])
@@ -17,14 +19,20 @@ def __get_lists():
 @app.route('/list', methods = ['GET'])
 def __get_list():
     list_id = request.get_json().get('listId', None)
-    tasks = get_list(list_id)
-    return json.dumps(tasks)
+    _list = get_list(list_id)
+    return json.dumps(_list)
 
 @app.route('/list', methods = ['POST'])
 def __post_list():
     event = request.get_json()
-    tasks = post_list(event)
-    return json.dumps(tasks)
+    res = post_list(event)
+    return json.dumps(res)
+
+@app.route('/task', methods = ['POST'])
+def __post_task():
+    event = request.get_json()
+    res = post_task(event)
+    return json.dumps(res)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
