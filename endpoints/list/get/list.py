@@ -5,7 +5,7 @@ from database_models.models.lists import List
 
 import config.constants as constants
 
-def get_tasks(list_id):
+def get_list(list_id):
     try:
         _list = session.query(List).filter_by(id = list_id).first()
         if _list is None:
