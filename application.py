@@ -9,6 +9,7 @@ from endpoints.list.post.list import post_list
 from endpoints.list.delete.list import delete_list
 
 from endpoints.task.post.task import post_task
+from endpoints.task.delete.task import delete_task
 
 app = Flask(__name__)
 
@@ -39,6 +40,12 @@ def __delete_list():
 def __post_task():
     event = request.get_json()
     res = post_task(event)
+    return json.dumps(res)
+
+@app.route('/task', methods = ['DELETE'])
+def __delete_task():
+    task_id = request.get_json().get('taskId')
+    res = delete_task(task_id)
     return json.dumps(res)
 
 if __name__ == '__main__':
