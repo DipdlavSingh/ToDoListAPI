@@ -6,6 +6,7 @@ from endpoints.all_lists.get.all_lists import get_all_lists
 
 from endpoints.list.get.list import get_list
 from endpoints.list.post.list import post_list
+from endpoints.list.delete.list import delete_list
 
 from endpoints.task.post.task import post_task
 
@@ -26,6 +27,12 @@ def __get_list():
 def __post_list():
     event = request.get_json()
     res = post_list(event)
+    return json.dumps(res)
+
+@app.route('/list', methods = ['DELETE'])
+def __delete_list():
+    list_id = request.get_json().get('listId')
+    res = delete_list(list_id)
     return json.dumps(res)
 
 @app.route('/task', methods = ['POST'])
