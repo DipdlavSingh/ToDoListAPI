@@ -18,4 +18,8 @@ def check_and_update_list_status(list_id):
     list.completed = True
     session.commit()
 
-
+def update_tasks_status(list_id, status):
+    tasks = session.query(Task).filter_by(listId = list_id).all()
+    for task in tasks:
+        task.completed = status
+    session.commit()
