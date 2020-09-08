@@ -1,3 +1,4 @@
+# export JAWSDB_URL=mysql://sqkpra3nffvd9072:zozj3t3wozxywl5b@d1kb8x1fu8rhcnej.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/dsn51yogbb1b97ov
 from flask import Flask, request
 import json
 import os
@@ -10,6 +11,7 @@ from endpoints.list.delete.list import delete_list
 
 from endpoints.task.post.task import post_task
 from endpoints.task.delete.task import delete_task
+from endpoints.task.put.task import put_task
 
 app = Flask(__name__)
 
@@ -46,6 +48,12 @@ def __post_task():
 def __delete_task():
     task_id = request.get_json().get('taskId')
     res = delete_task(task_id)
+    return json.dumps(res)
+
+@app.route('/task', methods = ['PUT'])
+def __put_task():
+    task_id = request.get_json().get('taskId')
+    res = put_task(task_id)
     return json.dumps(res)
 
 if __name__ == '__main__':
