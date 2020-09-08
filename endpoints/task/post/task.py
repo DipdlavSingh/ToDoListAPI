@@ -3,6 +3,8 @@ from database_models.sql_alchemy_setup import session
 from database_models.models.tasks import Task
 from database_models.models.lists import List
 
+from helper.update_checker import check_and_update_list_status
+
 import config.constants as constants
 
 def post_task(event):
@@ -24,6 +26,8 @@ def post_task(event):
         
         session.add(new_task)
         session.commit()
+
+        check_and_update_list_status(list_id)
 
         response = constants.SUCCESS_RESPONSE
         response['data'] = []
