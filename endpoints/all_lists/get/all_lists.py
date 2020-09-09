@@ -1,13 +1,15 @@
+import copy
+
 from database_models.sql_alchemy_setup import session
 
 from database_models.models.lists import List
 
 import config.constants as constants
 
-def get_all_lists():
+def get_all_lists(user):
     try:
-        lists = session.query(List).all()
-        response = constants.SUCCESS_RESPONSE
+        lists = session.query(List).filter_by(user=user['email']).all()
+        response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = []
         for list in lists:
             response['data'].append(list.as_dict())
