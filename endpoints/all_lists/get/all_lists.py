@@ -6,10 +6,11 @@ from database_models.models.lists import List
 
 import config.constants as constants
 
-def get_all_lists():
+def get_all_lists(user):
     try:
         session.commit()
-        lists = session.query(List).all()
+        # lists = session.query(List).all()
+        lists = session.query(List).filter_by(user=user['email']).all()
         response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = []
         for list in lists:
