@@ -38,8 +38,10 @@ def check_token(f):
             print(user)
             request.user = user
         except:
-            response = copy.deepcopy(constants.FAIL_RESPONSE)
-            response['message'] = 'Invalid token provided.'
+            res = copy.deepcopy(constants.FAIL_RESPONSE)
+            res['message'] = 'Invalid token provided.'
+            response = make_response(res)
+            response.set_cookie('auth','', expires=0)
             if not request.cookies.get('auth') == 'testing':
                 return response,400
         return f(*args, **kwargs)
@@ -50,7 +52,7 @@ def __login():
     event = request.get_json()
     result = post_login(event)
     response = make_response(result)
-    response.set_cookie('auth', result['token'])
+    response.set_cookie('auth', result.get('token', None))
     return response
 
 @app.route('/register', methods = ['POST'])
