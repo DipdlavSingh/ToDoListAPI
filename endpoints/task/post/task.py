@@ -7,7 +7,7 @@ from helper.update_checker import check_and_update_list_status
 
 import config.constants as constants
 
-def post_task(event):
+def post_task(event, user):
     try:
         list_id = event.get("listId", None)
         date_time = event.get("dateTime", None)
@@ -16,7 +16,7 @@ def post_task(event):
         if list_id is None or list_id == '':
             raise Exception('Missing field listId')
 
-        _list = session.query(List).filter_by(id = list_id).first()
+        _list = session.query(List).filter_by(id = list_id).filter_by(user=user['email']).first()
         if _list is None:
             raise Exception('List does not exist')        
         

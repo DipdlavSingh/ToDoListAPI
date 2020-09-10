@@ -52,7 +52,7 @@ def __login():
     event = request.get_json()
     result = post_login(event)
     response = make_response(result)
-    response.set_cookie('auth', result.get('token', None))
+    response.set_cookie('auth', result.get('token', ''))
     return response
 
 @app.route('/register', methods = ['POST'])
@@ -71,9 +71,10 @@ def __get_lists():
     return json.dumps(lists)
 
 @app.route('/list/<listId>', methods = ['GET'])
+@check_token
 def __get_list(listId):
     # list_id = request.get_json().get('listId', None)
-    _list = get_list(listId)
+    _list = get_list(listId, request.user)
     return json.dumps(_list)
 
 @app.route('/list', methods = ['POST'])
@@ -87,35 +88,35 @@ def __post_list():
 @check_token
 def __delete_list():
     list_id = request.get_json().get('listId')
-    res = delete_list(list_id)
+    res = delete_list(list_id, request.user)
     return json.dumps(res)
 
 @app.route('/list', methods = ['PUT'])
 @check_token
 def __put_list():
     list_id = request.get_json().get('listId')
-    res = put_list(list_id)
+    res = put_list(list_id, request.user)
     return json.dumps(res)
 
 @app.route('/task', methods = ['POST'])
 @check_token
 def __post_task():
     event = request.get_json()
-    res = post_task(event)
+    res = post_task(event, request.user)
     return json.dumps(res)
 
 @app.route('/task', methods = ['DELETE'])
 @check_token
 def __delete_task():
     task_id = request.get_json().get('taskId')
-    res = delete_task(task_id)
+    res = delete_task(task_id, request.user)
     return json.dumps(res)
 
 @app.route('/task', methods = ['PUT'])
 @check_token
 def __put_task():
     task_id = request.get_json().get('taskId')
-    res = put_task(task_id)
+    res = put_task(task_id, request.user)
     return json.dumps(res)
 
 if __name__ == '__main__':
