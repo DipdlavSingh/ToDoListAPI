@@ -10,6 +10,7 @@ def get_list(list_id):
         _list = session.query(List).filter_by(id = list_id).first()
         if _list is None:
             raise Exception('List does not exist')
+        session.commit()
         tasks = session.query(Task).filter_by(listId = list_id).all()
         response = constants.SUCCESS_RESPONSE
         response['data'] = []

@@ -8,6 +8,7 @@ import config.constants as constants
 
 def get_all_lists():
     try:
+        session.commit()
         lists = session.query(List).all()
         response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = []
