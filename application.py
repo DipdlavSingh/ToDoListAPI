@@ -1,6 +1,7 @@
 # export JAWSDB_URL=mysql://sqkpra3nffvd9072:zozj3t3wozxywl5b@d1kb8x1fu8rhcnej.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/dsn51yogbb1b97ov
+import copy
 from asyncio import constants
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, make_response
 from functools import wraps
 import json
 import os
@@ -28,18 +29,18 @@ app = Flask(__name__)
 def check_token(f):
     @wraps(f)
     def wrap(*args,**kwargs):
-        if not request.headers.get('authorization'):
+        if not request.cookies.get('auth'):
             response = constants.FAIL_RESPONSE
             response['message'] = 'No token provided.'
             return response,400
         try:
-            user = verify_id_token(request.headers['authorization'])
+            user = verify_id_token(request.cookies.get('auth'))
             print(user)
             request.user = user
         except:
-            response = constants.FAIL_RESPONSE
+            response = copy.deepcopy(constants.FAIL_RESPONSE)
             response['message'] = 'Invalid token provided.'
-            if not request.headers['authorization'] == 'testing':
+            if not request.cookies.get('auth') == 'testing':
                 return response,400
         return f(*args, **kwargs)
     return wrap
@@ -47,7 +48,10 @@ def check_token(f):
 @app.route('/login', methods = ['POST'])
 def __login():
     event = request.get_json()
-    return post_login(event)
+    result = post_login(event)
+    response = make_response(result)
+    response.set_cookie('auth', result['token'])
+    return response
 
 @app.route('/register', methods = ['POST'])
 def __register():
