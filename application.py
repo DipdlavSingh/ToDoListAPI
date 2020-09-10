@@ -21,10 +21,10 @@ def __get_lists():
     lists = get_all_lists()
     return json.dumps(lists)
 
-@app.route('/list', methods = ['GET'])
-def __get_list():
-    list_id = request.get_json().get('listId', None)
-    _list = get_list(list_id)
+@app.route('/list/<listId>', methods = ['GET'])
+def __get_list(listId):
+    # list_id = request.get_json().get('listId', None)
+    _list = get_list(listId)
     return json.dumps(_list)
 
 @app.route('/list', methods = ['POST'])
