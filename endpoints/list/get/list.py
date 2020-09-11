@@ -1,3 +1,5 @@
+import copy
+
 from database_models.sql_alchemy_setup import session
 
 from database_models.models.tasks import Task
@@ -12,12 +14,12 @@ def get_list(list_id, user):
             raise Exception('List does not exist')
         session.commit()
         tasks = session.query(Task).filter_by(listId = list_id).all()
-        response = constants.SUCCESS_RESPONSE
+        response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = []
         for task in tasks:
             response['data'].append(task.as_dict())
         return response
     except Exception as e:
-        response = constants.FAIL_RESPONSE
+        response = copy.deepcopy(constants.FAIL_RESPONSE)
         response['message'] = str(e)
         return response

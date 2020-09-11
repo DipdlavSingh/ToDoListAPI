@@ -1,3 +1,5 @@
+import copy
+
 import datetime
 
 from database_models.sql_alchemy_setup import session
@@ -34,10 +36,10 @@ def post_task(event, user):
 
         check_and_update_list_status(list_id)
 
-        response = constants.SUCCESS_RESPONSE
+        response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = []
         return response
     except Exception as e:
-        response = constants.FAIL_RESPONSE
+        response = copy.deepcopy(constants.FAIL_RESPONSE)
         response['message'] = str(e)
         return response

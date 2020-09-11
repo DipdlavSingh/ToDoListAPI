@@ -1,3 +1,5 @@
+import copy
+
 from database_models.sql_alchemy_setup import session
 
 from database_models.models.tasks import Task
@@ -19,10 +21,10 @@ def delete_task(task_id, user):
         res = session.query(Task).filter_by(id = task_id).delete()
         session.commit()
         check_and_update_list_status(task.listId)
-        response = constants.SUCCESS_RESPONSE
+        response = copy.deepcopy(constants.SUCCESS_RESPONSE)
         response['data'] = task.as_dict()
         return response
     except Exception as e:
-        response = constants.FAIL_RESPONSE
+        response = copy.deepcopy(constants.FAIL_RESPONSE)
         response['message'] = str(e)
         return response

@@ -64,6 +64,13 @@ def __register():
     else:
         return response
 
+@app.route('/logout', methods = ['POST'])
+@check_token
+def __logout():
+    response = make_response(copy.deepcopy(constants.SUCCESS_RESPONSE))
+    response.set_cookie('auth', '', expires=0)
+    return response
+
 @app.route('/allLists', methods = ['GET'])
 @check_token
 def __get_lists():
