@@ -7,12 +7,14 @@ The TodoListAPI provides the following features to maintain and manage your dail
 
 ## Here is a description of all the endpoints in brief
 
+NOTE: All APIs return {status:'success' ...} when oeration is successful and {status:'fail' ...} otherwise 
+
 ### 1. /allLists
 This endpoint can only be called via GET method and returns all the lists for the signed in user
 ``` payload: nothing ```
 
 ### 2. /list
-This endpoint is used for list CRUD operations. (<method>:/<path>)
+This endpoint is used for list CRUD operations. (http method:/path)
 
 #### 2.1 GET:/list/<listId>
   Used to get list with particular ID
@@ -31,7 +33,7 @@ This endpoint is used for list CRUD operations. (<method>:/<path>)
   ```payload: {listId: <required, int>}```
   
 ### 3. /task
-This path is used to add, update and delete a task. (<method>:/<path>)
+This path is used to add, update and delete a task. (method:/path)
 
 #### 3.1 POST:/task
   Used to add new task
@@ -51,8 +53,15 @@ Following are the routes used for authentication
 #### 4.1 POST:/login
   Used to login an existing user
   ```payload: {email: <registered user email>, password: <registered user password>}```
+  It sets a cookie on the client side which is used for further authentication
   
 #### 4.2 POST:/register
   Used to register and login a new user
   ```payload: {email: <new user email>, password: <new user password>}```
+  It also sets the authentication cookie
+  
+#### 4.3 POST:/logout
+  Used to logout from client side
+  ```payload: nothing```
+  resets the client cookie hence loggin them out from the frontend
 
