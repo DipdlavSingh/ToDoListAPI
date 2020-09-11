@@ -13,7 +13,9 @@ def post_task(event, user):
     try:
         list_id = event.get("listId", None)
         date_time_str = event.get("dateTime", None)
-        date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+        date_time_obj = None
+        if date_time_str:
+            date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
         title = event.get("title", None)
 
         if list_id is None or list_id == '':
