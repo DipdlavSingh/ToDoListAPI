@@ -24,7 +24,7 @@ def put_task(task_id, user):
         check_and_update_list_status(task.listId)
 
         response = constants.SUCCESS_RESPONSE
-        response['data'] = get_list(task.listId)['data']
+        response['data'] = get_list(task.listId, user)['data']
         return response
     except Exception as e:
         response = constants.FAIL_RESPONSE
