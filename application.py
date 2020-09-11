@@ -30,7 +30,7 @@ def check_token(f):
     @wraps(f)
     def wrap(*args,**kwargs):
         if not request.cookies.get('auth'):
-            response = constants.FAIL_RESPONSE
+            response = copy.deepcopy(constants.FAIL_RESPONSE)
             response['message'] = 'No token provided.'
             return response,400
         try:

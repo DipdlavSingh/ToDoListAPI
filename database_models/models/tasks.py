@@ -15,7 +15,7 @@ class Task(Base):
           return {
                'id': self.id,
                'title': self.title,
-               'datetime': self.datetime,
+               'datetime': str(self.datetime),
                'listId': self.listId,
                'completed': self.completed
           }

@@ -1,3 +1,5 @@
+import datetime
+
 from database_models.sql_alchemy_setup import session
 
 from database_models.models.tasks import Task
@@ -10,7 +12,8 @@ import config.constants as constants
 def post_task(event, user):
     try:
         list_id = event.get("listId", None)
-        date_time = event.get("dateTime", None)
+        date_time_str = event.get("dateTime", None)
+        date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
         title = event.get("title", None)
 
         if list_id is None or list_id == '':
@@ -22,7 +25,7 @@ def post_task(event, user):
         
         if title is None or title == '':
             raise Exception('Task title cannot be empty')
-        new_task = Task(title = title, listId = list_id, datetime = date_time)
+        new_task = Task(title = title, listId = list_id, datetime = date_time_obj)
         
         session.add(new_task)
         session.commit()
